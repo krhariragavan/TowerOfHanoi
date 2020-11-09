@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,14 +11,14 @@ public class GameManager : MonoBehaviour
     // Run-Time Ref --------->
 
     // Scene Ref -------->
-    public GameObject OriginTower;
-    public GameObject VictoryTower1;
-    public GameObject VictoryTower2;
+    public Tower OriginTower;
+    public Tower VictoryTower1;
+    public Tower VictoryTower2;
     // Scene Ref -------->
 
     [Header ("Set Value")]
     // Variables ---------->
-    public int TotalCount;
+    public int MaxDiskCount;
     // Variables ---------->
 
     //[HideInInspector]
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake ()
     {
-        Instance = this;    
+        Instance = this;
     }
 
     void Start ()
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Setting up on click values
+    /// Setting up on click object and enable move
     /// </summary>
     void SetClickedObj ()
     {
@@ -76,5 +77,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void IdentifyNextMove ()
+    {
+        
+    }
 
+    void DrawPathForNextMove (Tower FromObj, Tower ToObj)
+    {
+        Debug.Log ("Move this obj to --> " + FromObj.name);
+        Debug.Log ("This obj --> " + FromObj.name);
+    }
+
+    void Undo ()
+    {
+
+    }
+
+    void Redo ()
+    {
+
+    }
 }

@@ -217,6 +217,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1332576125, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
+      propertyPath: m_Name
+      value: Tower 3 Trigger
+      objectReference: {fileID: 0}
     - target: {fileID: 5317305913664413785, guid: fe0dc974c218a6348916fbc509572d62,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -284,18 +288,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
---- !u!1 &605497417 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5317305913664413789, guid: fe0dc974c218a6348916fbc509572d62,
+--- !u!114 &571642871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1332576130, guid: fe0dc974c218a6348916fbc509572d62,
     type: 3}
-  m_PrefabInstance: {fileID: 5317305913195497492}
+  m_PrefabInstance: {fileID: 571642870}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &605497421 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5317305913664413785, guid: fe0dc974c218a6348916fbc509572d62,
-    type: 3}
-  m_PrefabInstance: {fileID: 5317305913195497492}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 543e1f0a8180daf408c9c69d92ffb931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &747845449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -303,6 +307,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1332576125, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
+      propertyPath: m_Name
+      value: Tower 2 Trigger
+      objectReference: {fileID: 0}
     - target: {fileID: 5317305913664413785, guid: fe0dc974c218a6348916fbc509572d62,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -370,6 +378,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
+--- !u!114 &747845450 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1332576130, guid: fe0dc974c218a6348916fbc509572d62,
+    type: 3}
+  m_PrefabInstance: {fileID: 747845449}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 543e1f0a8180daf408c9c69d92ffb931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &916106094
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,131 +473,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1332576125
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1332576126}
-  - component: {fileID: 1332576129}
-  - component: {fileID: 1332576128}
-  - component: {fileID: 1332576131}
-  - component: {fileID: 1332576127}
-  - component: {fileID: 1332576130}
-  m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1332576126
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332576125}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 0.098, z: -0.06}
-  m_LocalScale: {x: 1.5592, y: 1.4692, z: 1.273}
-  m_Children: []
-  m_Father: {fileID: 605497421}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1332576127
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332576125}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1332576128
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332576125}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1332576129
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332576125}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1332576130
+--- !u!114 &1332576130 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1332576130, guid: fe0dc974c218a6348916fbc509572d62,
+    type: 3}
+  m_PrefabInstance: {fileID: 5317305913195497492}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332576125}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 543e1f0a8180daf408c9c69d92ffb931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VictoryTower: 0
-  TowerContains: []
---- !u!54 &1332576131
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332576125}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1451298641
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,10 +529,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ClickedObject: {fileID: 0}
-  OriginTower: {fileID: 605497417}
-  VictoryTower1: {fileID: 0}
-  VictoryTower2: {fileID: 0}
+  OriginTower: {fileID: 1332576130}
+  VictoryTower1: {fileID: 747845450}
+  VictoryTower2: {fileID: 571642871}
   TotalCount: 3
+  IsWrongMove: 0
 --- !u!1001 &1623385992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -903,6 +811,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1332576125, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
+      propertyPath: m_Name
+      value: Tower 1 Trigger
+      objectReference: {fileID: 0}
     - target: {fileID: 5317305913664413785, guid: fe0dc974c218a6348916fbc509572d62,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -963,6 +875,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5491199596513582289, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe0dc974c218a6348916fbc509572d62, type: 3}
