@@ -22,9 +22,10 @@ public class Tower : MonoBehaviour
         {
             if (!GameManager.Instance.IsWrongMove)
             {
-                if (AllDisks.Count == GameManager.Instance.MaxDiskCount)
+                if (AllDisks.Count == Game.Instance.DiskCount)
                 {
                     GameManager.Instance.VictoryAchieved ();
+                    Debug.Log ("WONNNN");
                 }
             }
         }
@@ -65,12 +66,7 @@ public class Tower : MonoBehaviour
         }
 
         //Array.Sort (AllDiskSizes.ToArray ());
-    }
-
-    public void SetColor ()
-    {
-
-    }
+    }    
 
     public void AddDisk (Disk disk)
     {

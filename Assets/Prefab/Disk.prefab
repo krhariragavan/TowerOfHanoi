@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6018669510504046807}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.074, z: 0}
-  m_LocalScale: {x: 25, y: 15, z: 25}
+  m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children:
   - {fileID: 6056256783371440886}
   m_Father: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   CanMove: 0
   Size: 0
   CurrentTowerObj: {fileID: 0}
+  DiskMat: {fileID: 4698578182975859456}
 --- !u!1001 &6018669512345974045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,6 +120,12 @@ PrefabInstance:
 --- !u!4 &6056256783371440886 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1f72fe8e5574c5a4498c0732f2cbad5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6018669512345974045}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4698578182975859456 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7876180026482762211, guid: 1f72fe8e5574c5a4498c0732f2cbad5d,
     type: 3}
   m_PrefabInstance: {fileID: 6018669512345974045}
   m_PrefabAsset: {fileID: 0}

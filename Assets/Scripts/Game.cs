@@ -8,13 +8,16 @@ public class Game : MonoBehaviour
     // Runtime Ref -->
     [Header ("Runtim Ref")]
     public Tower SelectedTower;
+    public int MoveCount;
+    public List<GameObject> AllDisks = new List<GameObject> ();
     // Runtime Ref -->
 
     // Scene Ref -->
     [Header ("Scene Ref")]
     public Tower [] AllTowers;
     public int DiskCount;
-    const float DiskThickness = 0.12f;
+    const float DiskThickness = 0.15f;
+    public Color [] DiskColors;
     // Scene Ref -->
 
     // Project Ref --> 
@@ -24,15 +27,36 @@ public class Game : MonoBehaviour
 
     public bool HasStarted;
 
+    public static Game Instance;
+
+    private void Awake ()
+    {
+        Instance = this;
+    }
+
     void Start ()
     {
         //AddDisks ();
         //AddDisksReverse ();
-        AddDisks ();
+        StartGame ();
+    }
+
+    public void StartGame ()
+    {
+        if (AllDisks.Count > 0)
+        {
+            RemoveDisks ();
+            AddDisks ();
+        }
+        else
+        {
+            AddDisks ();
+        }
     }
 
     void AddDisks ()
     {
+        MoveCount = 0; // Setting up move count to 0 - default start value
         Tower originTower = AllTowers [0];
 
         for (int i = DiskCount; i > 0; i--)
@@ -44,19 +68,50 @@ public class Game : MonoBehaviour
 
             // Setting Disk initial Position 
             Vector3 pos = originTower.TowerOriginTransform.position;
-            float yPos = pos.y + (i * (DiskThickness + 0.005f)); // - 0.1875f; // 0.12 is the value of disk thickness // 0.1875 is the value for the first disk 
+            float yPos = pos.y + (i * (DiskThickness + 0.005f)) - 0.218f; // - 0.1875f; // 0.12 is the value of disk thickness // 0.1875 is the value for the first disk 
             Inst.transform.position = new Vector3 (pos.x, yPos, pos.z);
 
             // Setting initial scale
             Vector3 localScale = Inst.transform.localScale;
-            float scaleValue = localScale.x + (Size * 0.1f);
+            float scaleValue = localScale.x + (Size * 4f);
             Inst.transform.localScale = new Vector3 (scaleValue, localScale.y, scaleValue);
 
             // Setting disk value
             Disk disk = Inst.GetComponent<Disk> ();
+
+            AllDisks.Add (Inst);
+
+            // Setting Random Colors for disks
+            int RandomColor = Random.Range (0, DiskColors.Length);
+            Color color = DiskColors [RandomColor];
+            disk.SetColor (color);
+
             originTower.AddDisk (disk);
             disk.Size = Size;
         }
+    }
+
+    void RemoveDisks ()
+    {
+        Debug.Log ("Removing");
+
+
+        //AllDisks.RemoveAll (item => item == null);
+
+        //AllDisks.RemoveAll (delegate (GameObject o) { return o == null; });
+
+        for (int i = 0; i < AllDisks.Count; i++)
+        {
+            //Disk DiskInst = AllDisks [i];
+            //AllDisks.Remove (DiskInst);
+            GameObject obj = AllDisks [i];
+            Destroy (obj);
+        }
+
+        AllDisks.RemoveAll (delegate (GameObject d) { return d == null; });
+        
+        AllDisks.Clear ();
+        AllDisks = new List<GameObject> ();
     }
 
     //void AddDisks ()
@@ -183,7 +238,7 @@ public class Game : MonoBehaviour
     {
         // Setting disk position
         int diskcount = ToTower.AllDisks.Count;
-        float ypos = diskcount * DiskThickness * 1.1f; // * 2f;
+        float ypos = (diskcount * DiskThickness * 1.1f) + 0.1f; // * 2f;
         Vector3 pos = ToTower.TowerOriginTransform.position;
         Vector3 ToPos = new Vector3 (pos.x, ypos, pos.z);
 
@@ -195,8 +250,10 @@ public class Game : MonoBehaviour
         //MoveableDisk.transform.DOMove (ToPos, 1);
         ToTower.AddDisk (moveabledisk); // Play animation 
 
+        MoveCount++;
+
         // Debug Msg
-        Debug.Log ("Moving disk --> " + moveabledisk.name + "to Tower --> " + ToTower.name);
+        Debug.Log ("Moving disk --> " + moveabledisk.name + " to Tower --> " + ToTower.name);
     }
 
     Tower OnClickSelect (bool WithDisk)
@@ -224,5 +281,23 @@ public class Game : MonoBehaviour
             }
         }
         return null;
+    }
+
+    string PlayerPrefsKey
+    {
+        get
+        {
+            return "Best" + AllDisks.Count;
+        }
+    }
+
+    void SaveBestMove ()
+    {
+        PlayerPrefs.SetInt (PlayerPrefsKey, MoveCount);
+    }
+
+    public int GetBestMove ()
+    {
+        return PlayerPrefs.GetInt (PlayerPrefsKey);
     }
 }

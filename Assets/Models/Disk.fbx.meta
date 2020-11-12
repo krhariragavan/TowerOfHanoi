@@ -3,7 +3,12 @@ guid: 1f72fe8e5574c5a4498c0732f2cbad5d
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_0114_BlueViolet
+    second: {fileID: 2100000, guid: 228d142f92fb3194398f9168fb99f19d, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

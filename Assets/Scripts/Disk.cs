@@ -8,15 +8,24 @@ public class Disk : MonoBehaviour
     public int Size; // proportional to number 1 being the smallest and 10 being the large
     public GameObject CurrentTowerObj;
     //public Tower NewTower;
+    //public GameObject DiskObj;
+    public MeshRenderer DiskMat;
 
     void Start ()
     {
-
+        //SetColor ();
     }
 
     void Update ()
     {
         //SetFirstPieceMoveable ();
+    }
+
+    public void SetColor (Color color)
+    {
+        //int RandomColor = Random.Range (0, Game.Instance.DiskColors.Length);
+        //Color color = Game.Instance.DiskColors [RandomColor];
+        DiskMat.material.color = color;
     }
 
     /// <summary>
