@@ -9,29 +9,34 @@ public class Tower : MonoBehaviour
     public List<GameObject> AllDisks = new List<GameObject> (); // List of all objects that is placed in the tower
     public Transform TowerOriginTransform; // Setting up disk posiions
 
+    [SerializeField] MeshRenderer mesh;
+    Color TowerDefaultMaterialColor;
+
     Disk IncomingDisk;
 
     void Start ()
     {
-
+        TowerDefaultMaterialColor = mesh.material.color;
     }
 
     void Update ()
     {
         if (IsVictoryTower)
         {
-            if (!GameManager.Instance.IsWrongMove)
+            //if (!GameManager.Instance.IsWrongMove)
+            //{
+            if (AllDisks.Count == Game.Instance.DiskCount)
             {
-                if (AllDisks.Count == Game.Instance.DiskCount)
-                {
-                    //GameManager.Instance.VictoryAchieved ();
-                    Game.Instance.SaveBestMove ();
-                    Debug.Log ("WONNNN");
-                }
+                //GameManager.Instance.VictoryAchieved ();
+                Game.Instance.SaveBestMove ();
+                UIManager.Instance.DisplayWinText (); // Displaying win text
+                UIManager.Instance.IsGameStarted = false;
+                //Debug.Log ("WONNNN");
             }
+            //}
         }
 
-        SetCurrentMoveCount ();
+        //SetCurrentMoveCount ();
     }
 
     void SetCurrentMoveCount ()
@@ -67,7 +72,7 @@ public class Tower : MonoBehaviour
         }
 
         //Array.Sort (AllDiskSizes.ToArray ());
-    }    
+    }
 
     public void AddDisk (Disk disk)
     {
@@ -80,6 +85,14 @@ public class Tower : MonoBehaviour
         AllDisks.Remove (disk.gameObject);
     }
 
+    public void RemoveAllDisk ()
+    {
+        AllDisks.RemoveAll (delegate (GameObject d) { return d == null; });
+
+        AllDisks.Clear ();
+        AllDisks = new List<GameObject> ();
+    }
+
     public Disk GetMoveableDiskBySize ()
     {
         int [] AllDiskSize = new int [AllDisks.Count];
@@ -87,7 +100,7 @@ public class Tower : MonoBehaviour
         for (int i = 0; i < AllDisks.Count; i++)
         {
             Disk disk = AllDisks [i].GetComponent<Disk> ();
-            AllDiskSize [i] = disk.Size; 
+            AllDiskSize [i] = disk.Size;
         }
 
         int MinSize = Mathf.Min (AllDiskSize);
@@ -103,36 +116,50 @@ public class Tower : MonoBehaviour
         return null;
     }
 
-    Disk GetMoveablePiece ()
+    public void SetTowerColor (bool IsDefault)
     {
-        foreach (GameObject disk in AllDisks)
+        if (IsDefault)
         {
-            Disk interact = disk.GetComponent<Disk> ();
-            if (interact != null)
-            {
-                if (interact.CanMove)
-                {
-                    return interact;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public int GetMoveablePieceSize () // One being the smallest and 10 being the largest. Value above max disk count denotes there are no disks in the tower
-    {
-        Disk interact = GetMoveablePiece ();
-
-        if (interact != null)
-        {
-            return interact.Size;
+            foreach (Material mat in mesh.materials)
+                mat.color = TowerDefaultMaterialColor;
         }
         else
         {
-            return GameManager.Instance.MaxDiskCount + 1; // Value above max disk count denotes that there are no disks in the tower
+            foreach (Material mat in mesh.materials)
+                mat.color = new Color (0, 1, 0, 1);
         }
     }
+
+    //Disk GetMoveablePiece ()
+    //{
+    //    foreach (GameObject disk in AllDisks)
+    //    {
+    //        Disk interact = disk.GetComponent<Disk> ();
+    //        if (interact != null)
+    //        {
+    //            if (interact.CanMove)
+    //            {
+    //                return interact;
+    //            }
+    //        }
+    //    }
+
+    //    return null;
+    //}
+
+    //public int GetMoveablePieceSize () // One being the smallest and 10 being the largest. Value above max disk count denotes there are no disks in the tower
+    //{
+    //    Disk interact = GetMoveablePiece ();
+
+    //    if (interact != null)
+    //    {
+    //        return interact.Size;
+    //    }
+    //    else
+    //    {
+    //        return GameManager.Instance.MaxDiskCount + 1; // Value above max disk count denotes that there are no disks in the tower
+    //    }
+    //}
 
     /// <summary>
     /// On object enters tower ---> This step is required to check victory condition

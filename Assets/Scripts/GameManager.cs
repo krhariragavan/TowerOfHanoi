@@ -196,83 +196,83 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void IdentifyNextMove ()
-    {
-        // Run this only after player making first move if not, Run the victory algorithm
+    //void IdentifyNextMove ()
+    //{
+    //    // Run this only after player making first move if not, Run the victory algorithm
 
-        int OriginMaxSize = OriginTower.GetMoveablePieceSize ();
-        int Tower1MaxSize = VictoryTower1.GetMoveablePieceSize ();
-        int Tower2MaxSize = VictoryTower2.GetMoveablePieceSize ();
+    //    int OriginMaxSize = OriginTower.GetMoveablePieceSize ();
+    //    int Tower1MaxSize = VictoryTower1.GetMoveablePieceSize ();
+    //    int Tower2MaxSize = VictoryTower2.GetMoveablePieceSize ();
 
 
-        //int Smallest = Mathf.Min (OriginMaxSize, Tower1MaxSize, Tower2MaxSize);
-        //int LargestSmallest = Mathf.Max (OriginMaxSize, Tower1MaxSize, Tower2MaxSize);
+    //    //int Smallest = Mathf.Min (OriginMaxSize, Tower1MaxSize, Tower2MaxSize);
+    //    //int LargestSmallest = Mathf.Max (OriginMaxSize, Tower1MaxSize, Tower2MaxSize);
 
-        if (OriginMaxSize <= Tower1MaxSize && OriginMaxSize <= Tower2MaxSize)
-        {
-            // origin has smallest
-            DrawPathForNextMove (OriginTower, VictoryTower1);
-            DrawPathForNextMove (OriginTower, VictoryTower2);
-            if (Tower1MaxSize == Tower2MaxSize) // Max size is equal only if both doesn't have any disk
-            {
-                // Both doesn't has any disks
-            }
-            else if (Tower1MaxSize < Tower2MaxSize)
-            {
-                // Tower1 second smallest
-                DrawPathForNextMove (VictoryTower1, VictoryTower2);
-            }
-            else
-            {
-                // Tower2 second smallest
-                DrawPathForNextMove (VictoryTower2, VictoryTower1);
-            }
-        }
-        else if (Tower1MaxSize <= OriginMaxSize && Tower1MaxSize <= Tower2MaxSize)
-        {
-            // Tower 1 has smallest
-            DrawPathForNextMove (VictoryTower1, OriginTower);
-            DrawPathForNextMove (VictoryTower1, VictoryTower2);
-            if (OriginMaxSize == Tower2MaxSize) // Max size is equal only if both doesn't have any disk
-            {
-                // Both doesn't has any disks
-            }
-            else if (OriginMaxSize < Tower2MaxSize)
-            {
-                // Orgin second smallest
-                //DrawPathForNextMove (VictoryTower1, OriginTower);
-                //DrawPathForNextMove (VictoryTower1, VictoryTower2);
+    //    if (OriginMaxSize <= Tower1MaxSize && OriginMaxSize <= Tower2MaxSize)
+    //    {
+    //        // origin has smallest
+    //        DrawPathForNextMove (OriginTower, VictoryTower1);
+    //        DrawPathForNextMove (OriginTower, VictoryTower2);
+    //        if (Tower1MaxSize == Tower2MaxSize) // Max size is equal only if both doesn't have any disk
+    //        {
+    //            // Both doesn't has any disks
+    //        }
+    //        else if (Tower1MaxSize < Tower2MaxSize)
+    //        {
+    //            // Tower1 second smallest
+    //            DrawPathForNextMove (VictoryTower1, VictoryTower2);
+    //        }
+    //        else
+    //        {
+    //            // Tower2 second smallest
+    //            DrawPathForNextMove (VictoryTower2, VictoryTower1);
+    //        }
+    //    }
+    //    else if (Tower1MaxSize <= OriginMaxSize && Tower1MaxSize <= Tower2MaxSize)
+    //    {
+    //        // Tower 1 has smallest
+    //        DrawPathForNextMove (VictoryTower1, OriginTower);
+    //        DrawPathForNextMove (VictoryTower1, VictoryTower2);
+    //        if (OriginMaxSize == Tower2MaxSize) // Max size is equal only if both doesn't have any disk
+    //        {
+    //            // Both doesn't has any disks
+    //        }
+    //        else if (OriginMaxSize < Tower2MaxSize)
+    //        {
+    //            // Orgin second smallest
+    //            //DrawPathForNextMove (VictoryTower1, OriginTower);
+    //            //DrawPathForNextMove (VictoryTower1, VictoryTower2);
 
-                DrawPathForNextMove (OriginTower, VictoryTower2);
-            }
-            else
-            {
-                // Tower2 second smallest
-                DrawPathForNextMove (VictoryTower2, OriginTower);
-            }
-        }
-        else
-        {
-            // Tower 2 has smallest
-            DrawPathForNextMove (VictoryTower2, OriginTower);
-            DrawPathForNextMove (VictoryTower2, VictoryTower2);
+    //            DrawPathForNextMove (OriginTower, VictoryTower2);
+    //        }
+    //        else
+    //        {
+    //            // Tower2 second smallest
+    //            DrawPathForNextMove (VictoryTower2, OriginTower);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        // Tower 2 has smallest
+    //        DrawPathForNextMove (VictoryTower2, OriginTower);
+    //        DrawPathForNextMove (VictoryTower2, VictoryTower2);
 
-            if (OriginMaxSize == Tower1MaxSize) // Max size is equal only if both doesn't have any disk
-            {
-                // Both doesn't has any disks
-            }
-            else if (OriginMaxSize < Tower1MaxSize)
-            {
-                // Origin second smallest
-                DrawPathForNextMove (OriginTower, VictoryTower1);
-            }
-            else
-            {
-                // Tower1 second smallest
-                DrawPathForNextMove (VictoryTower1, OriginTower);
-            }
-        }
-    }
+    //        if (OriginMaxSize == Tower1MaxSize) // Max size is equal only if both doesn't have any disk
+    //        {
+    //            // Both doesn't has any disks
+    //        }
+    //        else if (OriginMaxSize < Tower1MaxSize)
+    //        {
+    //            // Origin second smallest
+    //            DrawPathForNextMove (OriginTower, VictoryTower1);
+    //        }
+    //        else
+    //        {
+    //            // Tower1 second smallest
+    //            DrawPathForNextMove (VictoryTower1, OriginTower);
+    //        }
+    //    }
+    //}
 
     void DrawPathForNextMove (Tower FromObj, Tower ToObj)
     {

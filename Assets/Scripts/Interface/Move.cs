@@ -22,7 +22,7 @@ public class Move : IMove
         Disk moveabledisk = fromTower.GetMoveableDiskBySize ();
 
         int diskcount = toTower.AllDisks.Count;
-        float ypos = (diskcount * Game.DiskThickness * 1.1f) + 0.1f; // * 2f;
+        float ypos = (diskcount * Game.DiskThickness * 1.1f) + 3.3f; // 3.3 in environment and in game only its 0.1f
         Vector3 pos = toTower.TowerOriginTransform.position;
         Vector3 ToPos = new Vector3 (pos.x, ypos, pos.z);
 
@@ -35,6 +35,8 @@ public class Move : IMove
         seq.Append (moveabledisk.transform.DOMove (ToPos, 0.4f));
         //MoveableDisk.transform.DOMove (ToPos, 1);
         toTower.AddDisk (moveabledisk); // Play animation
+
+
 
         if (IsUndo)
             Game.Instance.MoveCount--;

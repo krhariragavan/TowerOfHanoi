@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: 086499ba56b5a1d4ba557fc5553a906e
+guid: b08adcc3784c01c40a2accf4903eac08
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: M_41c98O7GlsL__SY355_
-    second: {fileID: 2100000, guid: c174958fb862ef14ca432de87b33e9af, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: dowel_grain
-    second: {fileID: 2100000, guid: f6015529e2743da4db2c09d951726fdc, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
