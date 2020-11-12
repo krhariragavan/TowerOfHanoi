@@ -36,7 +36,6 @@ WebGl Build Folder Details
 Build 
 Template Data
 index.html
----------------- 
 
 P.S.
 Lighting can be better. :)
