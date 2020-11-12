@@ -17,8 +17,8 @@ ehthumbs.db
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
+# /[Bb]uild/
+# /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
