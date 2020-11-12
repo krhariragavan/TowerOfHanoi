@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script is attached to all the towers
 public class Tower : MonoBehaviour
 {
     public bool IsVictoryTower; // Except orgin tower other two towers are marked as vicotry tower in inspector
@@ -21,7 +22,7 @@ public class Tower : MonoBehaviour
 
     void Update ()
     {
-        if (IsVictoryTower)
+        if (IsVictoryTower) // Check if this tower is the victory tower
         {
             //if (!GameManager.Instance.IsWrongMove)
             //{
@@ -39,6 +40,7 @@ public class Tower : MonoBehaviour
         //SetCurrentMoveCount ();
     }
 
+    #region NOT USED / OLD SCRIPT
     void SetCurrentMoveCount ()
     {
         if (IncomingDisk != null)
@@ -73,19 +75,21 @@ public class Tower : MonoBehaviour
 
         //Array.Sort (AllDiskSizes.ToArray ());
     }
+    #endregion
 
-    public void AddDisk (Disk disk)
+
+    public void AddDisk (Disk disk) // Add disk value to this tower
     {
         // Play animation to tower location
         AllDisks.Add (disk.gameObject);
     }
 
-    public void RemoveDisk (Disk disk)
+    public void RemoveDisk (Disk disk) // Remove disk value from this tower
     {
         AllDisks.Remove (disk.gameObject);
     }
 
-    public void RemoveAllDisk ()
+    public void RemoveAllDisk () // Clear all disks value from the tower
     {
         AllDisks.RemoveAll (delegate (GameObject d) { return d == null; });
 
@@ -93,21 +97,24 @@ public class Tower : MonoBehaviour
         AllDisks = new List<GameObject> ();
     }
 
+    // Get the small size disk as moveable disk
     public Disk GetMoveableDiskBySize ()
     {
+        // Get all disks
         int [] AllDiskSize = new int [AllDisks.Count];
 
         for (int i = 0; i < AllDisks.Count; i++)
         {
             Disk disk = AllDisks [i].GetComponent<Disk> ();
-            AllDiskSize [i] = disk.Size;
+            AllDiskSize [i] = disk.Size; // Set all disk size
         }
 
-        int MinSize = Mathf.Min (AllDiskSize);
+        int MinSize = Mathf.Min (AllDiskSize); // Find the min size of the disk
 
         foreach (GameObject diskObj in AllDisks)
         {
-            Disk disk = diskObj.GetComponent<Disk> ();
+            // Identify disk reference for the min size disk
+            Disk disk = diskObj.GetComponent<Disk> (); 
             if (disk.Size == MinSize)
             {
                 return disk;
@@ -116,6 +123,7 @@ public class Tower : MonoBehaviour
         return null;
     }
 
+    // Set tower color for better identification of clicked tower
     public void SetTowerColor (bool IsDefault)
     {
         if (IsDefault)

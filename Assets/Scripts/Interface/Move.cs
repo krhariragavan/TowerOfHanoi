@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : IMove
+
+// Derived from an interface for undo purpose. Implementing REDO also becomes very handy with this interface
+// This class is based on Command Pattern
+public class Move : IMove 
 {
     Tower _FromTower;
     Disk _Disk;
     Tower _ToTower;
 
+    // Constructor for Move Class
     public Move (Tower FromTower, Tower ToTower)
     {
         _FromTower = FromTower;
@@ -17,12 +21,15 @@ public class Move : IMove
         _Disk = _FromTower.GetMoveableDiskBySize ();
     }
 
+    // Disk move from one tower to another
     void MakeMove (Tower fromTower, Tower toTower, bool IsUndo)
     {
-        Disk moveabledisk = fromTower.GetMoveableDiskBySize ();
+        Disk moveabledisk = fromTower.GetMoveableDiskBySize (); // Get the actual moveable disk
 
-        int diskcount = toTower.AllDisks.Count;
+        int diskcount = toTower.AllDisks.Count; // Get disk count in the 2nd tower
         float ypos = (diskcount * Game.DiskThickness * 1.1f) + 3.3f; // 3.3 in environment and in game only its 0.1f
+
+        // Get positions for animation purpose
         Vector3 pos = toTower.TowerOriginTransform.position;
         Vector3 ToPos = new Vector3 (pos.x, ypos, pos.z);
 
@@ -36,8 +43,7 @@ public class Move : IMove
         //MoveableDisk.transform.DOMove (ToPos, 1);
         toTower.AddDisk (moveabledisk); // Play animation
 
-
-
+        // Changing move count in undo
         if (IsUndo)
             Game.Instance.MoveCount--;
         else

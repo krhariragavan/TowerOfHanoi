@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script is attached to all the disks
 public class Disk : MonoBehaviour
 {
     public bool CanMove;
@@ -9,7 +10,7 @@ public class Disk : MonoBehaviour
     public GameObject CurrentTowerObj;
     //public Tower NewTower;
     //public GameObject DiskObj;
-    public MeshRenderer DiskMat;
+    public MeshRenderer DiskMat; // Getting disk material to change color randomly on game start
 
     void Start ()
     {
@@ -21,6 +22,7 @@ public class Disk : MonoBehaviour
         //SetFirstPieceMoveable ();
     }
 
+    // Set random color for disk
     public void SetColor (Color color)
     {
         //int RandomColor = Random.Range (0, Game.Instance.DiskColors.Length);
@@ -28,6 +30,7 @@ public class Disk : MonoBehaviour
         DiskMat.material.color = color;
     }
 
+    #region UNUSED
     /// <summary>
     /// Identify if this is a top piece and enable move. If player tries to make a wrong move --> Alert
     /// </summary>
@@ -73,4 +76,5 @@ public class Disk : MonoBehaviour
         Debug.Log ("Collision Enter");
         CanMove = false;
     }
+    #endregion
 }

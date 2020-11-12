@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// NOT USED in scene. CHECK Game.cs -------------------------------------------------------------------------------------------------------->
 public class GameManager : MonoBehaviour
 {
     // Run-Time Ref --------->

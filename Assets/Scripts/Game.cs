@@ -53,6 +53,7 @@ public class Game : MonoBehaviour
         //StartGame (); // USED FOR TESTING
     }
 
+    // Start the game 
     public void StartGame ()
     {
         if (AllDisks.Count > 0)
@@ -66,7 +67,7 @@ public class Game : MonoBehaviour
         }
     }
 
-    void AddDisks ()
+    void AddDisks ()// Add Disks
     {
         UIManager.Instance.SetBestMoveText ();
 
@@ -105,10 +106,9 @@ public class Game : MonoBehaviour
         }
     }
 
-    void RemoveDisks ()
+    void RemoveDisks () // Destroy all exsisting disks
     {
         Debug.Log ("Removing");
-
 
         //AllDisks.RemoveAll (item => item == null);
 
@@ -118,14 +118,15 @@ public class Game : MonoBehaviour
         {
             //Disk DiskInst = AllDisks [i];
             //AllDisks.Remove (DiskInst);
+
             GameObject obj = AllDisks [i];
             Destroy (obj);
         }
 
-        AllDisks.RemoveAll (delegate (GameObject d) { return d == null; });
+        AllDisks.RemoveAll (delegate (GameObject d) { return d == null; }); // Removing all values from list
 
-        AllDisks.Clear ();
-        AllDisks = new List<GameObject> ();
+        AllDisks.Clear (); // Clearing again to make sure list is 100% clear
+        AllDisks = new List<GameObject> (); // Creating a new instance of the list
 
         foreach (Tower tower in AllTowers)
         {
@@ -198,11 +199,11 @@ public class Game : MonoBehaviour
         {
             if (HasStarted)
             {
-                Tower tower = OnClickSelect (false);
+                Tower tower = OnClickSelect (false); // Getting which tower has been clicked
 
                 if (tower != null)
                 {
-                    if (SelectedTower != tower)
+                    if (SelectedTower != tower) // Check if user selected same towers for moving the disk
                     {
                         Disk MoveableDisk = SelectedTower.GetMoveableDiskBySize ();
 
@@ -214,7 +215,7 @@ public class Game : MonoBehaviour
                                 //MoveDisk (MoveableDisk, tower);
                                 //SelectedTower.RemoveDisk (MoveableDisk); // Migrated to Move.cs
                             }
-                            else
+                            else // This block is for INVALID MOVE
                             {
                                 UIManager.Instance.DisplayInvalidMove ();
                                 // Setting default color to towers
@@ -258,6 +259,7 @@ public class Game : MonoBehaviour
         {
             UIManager.Instance.SetDiskCount (false);
         }
+        // Key inputs for increasing the disk/peg count
         if (Input.GetKeyDown (KeyCode.Alpha1))
         {
             UIManager.Instance.SetDiskCount (true);
@@ -285,6 +287,7 @@ public class Game : MonoBehaviour
     // On click Select the Tower
     Tower OnClickSelect (bool WithDisk)
     {
+        // Raycasting to find, click on the tower
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
 
@@ -300,7 +303,7 @@ public class Game : MonoBehaviour
                 {
                     if (tower.AllDisks.Count > 0)
                     {
-                        return tower;
+                        return tower; // Returns clicked tower object
                     }
                 }
                 else
@@ -312,11 +315,13 @@ public class Game : MonoBehaviour
         return null;
     }    
 
+    // Saving the best move locally
     public void SaveBestMove ()
     {
         PlayerPrefs.SetInt (PlayerPrefsKey, MoveCount);
     }
 
+    // Getting exsisting best moves
     public int GetBestMove ()
     {
         return PlayerPrefs.GetInt (PlayerPrefsKey);

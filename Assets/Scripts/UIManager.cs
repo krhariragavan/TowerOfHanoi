@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header ("Scene Ref")]
-    [SerializeField] GameObject PlayMenuObj;
-    [SerializeField] GameObject InGameMenuObj;
-    [SerializeField] Text MoveCountText;
-    [SerializeField] Text BestMoveText;
-    [SerializeField] Text TimerText;
-    [SerializeField] Text InvalidMoveText;
-    [SerializeField] Text DiskCountDisplayText;
-    [SerializeField] GameObject WonTheGame;
+    [SerializeField] GameObject PlayMenuObj; // Play menu before the game starts
+    [SerializeField] GameObject InGameMenuObj; // In Game menu - after the game starts
+    [SerializeField] Text MoveCountText; // Current move count text
+    [SerializeField] Text BestMoveText; // Best move count text
+    [SerializeField] Text TimerText; // Timer text
+    [SerializeField] Text InvalidMoveText; // Invalid move text
+    [SerializeField] Text DiskCountDisplayText; // disk count display before the game starts
+    [SerializeField] GameObject WonTheGame; // Won the game text
 
     DateTime StartTime;
     TimeSpan TimeNow;
@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
 
     void Update ()
     {
-        if (IsGameStarted)
+        if (IsGameStarted) // Set timer and move count only when the game is started
         {
             SetTimerText ();
             SetMoveCount ();
@@ -50,17 +50,20 @@ public class UIManager : MonoBehaviour
         //SetBestMoveText ();
     }
 
+    // Set timer text value
     void SetTimerText ()
     {
         TimeNow = DateTime.Now - StartTime;
         TimerText.text = TimeNow.ToString ();
     }
 
+    // Setting move count value in the UI Text
     void SetMoveCount ()
     {
         MoveCountText.text = "Move Count - " + Game.Instance.MoveCount.ToString ();
     }
 
+    // Setting best move count value in the UI Text
     public void SetBestMoveText ()
     {
         int bestMove = Game.Instance.GetBestMove ();
@@ -71,6 +74,7 @@ public class UIManager : MonoBehaviour
     }
 
     // Buttons
+    #region Buttons
     public void PlayButton ()
     {
         IsGameStarted = true;
@@ -139,6 +143,7 @@ public class UIManager : MonoBehaviour
             // No More Undo Moves
         }
     }
+    #endregion
 
     public void DisplayInvalidMove ()
     {
@@ -186,6 +191,7 @@ public class UIManager : MonoBehaviour
         WonTheGame.gameObject.SetActive (true);
     }
 
+    // Future expansion if needed...
     //public void Redo ()
     //{
     //    if (Game.Instance.CurrentMoveIndex < Game.Instance.AllMoves.Count)
