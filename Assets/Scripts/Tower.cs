@@ -24,7 +24,8 @@ public class Tower : MonoBehaviour
             {
                 if (AllDisks.Count == Game.Instance.DiskCount)
                 {
-                    GameManager.Instance.VictoryAchieved ();
+                    //GameManager.Instance.VictoryAchieved ();
+                    Game.Instance.SaveBestMove ();
                     Debug.Log ("WONNNN");
                 }
             }

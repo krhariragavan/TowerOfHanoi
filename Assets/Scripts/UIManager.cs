@@ -12,10 +12,18 @@ public class UIManager : MonoBehaviour
     public Text MoveCountText;
     public Text BestMoveText;
     public Text TimerText;
+    public Text InvalidMoveText;
 
     DateTime StartTime;
     TimeSpan TimeNow;
 
+
+    public static UIManager Instance;
+
+    private void Awake ()
+    {
+        Instance = this;
+    }
     void Start ()
     {
         StartTime = DateTime.Now;
@@ -26,7 +34,7 @@ public class UIManager : MonoBehaviour
     {
         SetTimerText ();
         SetMoveCount ();
-        SetBestMoveText ();
+        //SetBestMoveText ();
     }
 
     void SetTimerText ()
@@ -40,7 +48,7 @@ public class UIManager : MonoBehaviour
         MoveCountText.text = Game.Instance.MoveCount.ToString ();
     }
 
-    void SetBestMoveText ()
+    public void SetBestMoveText ()
     {
         int bestMove = Game.Instance.GetBestMove ();
         if (bestMove > 0)
@@ -85,11 +93,47 @@ public class UIManager : MonoBehaviour
 
     public void Undo ()
     {
+        if (Game.Instance.CurrentMoveIndex >= 0)
+        {
+            Game.Instance.AllMoves [Game.Instance.CurrentMoveIndex].Undo ();
+            Game.Instance.CurrentMoveIndex--;
 
+            // Condition needed only if there is Redo
+            //if (Game.Instance.CurrentMoveIndex != 0)
+            //{
+            //}
+
+            Debug.Log (Game.Instance.CurrentMoveIndex);
+        }
+        else
+        {
+            Debug.Log ("NO undo MOVES");
+
+            // No More Undo Moves
+        }
     }
 
-    public void Redo ()
+    public void DisplayInvalidMove ()
     {
 
     }
+
+    //public void Redo ()
+    //{
+    //    if (Game.Instance.CurrentMoveIndex < Game.Instance.AllMoves.Count)
+    //    {
+    //        Game.Instance.AllMoves [Game.Instance.CurrentMoveIndex].Execute ();
+
+    //        if (Game.Instance.CurrentMoveIndex < Game.Instance.AllMoves.Count - 1)
+    //        {
+    //            Game.Instance.CurrentMoveIndex++;
+    //        }
+    //        Debug.Log (Game.Instance.CurrentMoveIndex);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log ("NO REDO MOVES");
+    //        // No More Redo moves
+    //    }
+    //}
 }

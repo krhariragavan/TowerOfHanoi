@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 90235edcfb7465a4aa6ca4fa928a5f7f
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 25
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -64,11 +64,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Color_A04
     second: {fileID: 2100000, guid: f8034c8e647f8b5498c55121a4f7ff6f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Color_A05
-    second: {fileID: 2100000, guid: c672ddf339e72bc41b12f0f8a5588781, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -567,11 +562,6 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Wood_Floor_Light
-    second: {fileID: 2100000, guid: 389ba7fad4efcd643840fb80313d00dc, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: Wood_Floor_Light1
     second: {fileID: 2100000, guid: 9cb1e304fc542414fae31994b4029db0, type: 2}
   - first:
@@ -957,11 +947,6 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: _Wheat_
-    second: {fileID: 2100000, guid: f1183d86158fde7408ecd82daaa12603, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: _WhiteSmoke_
     second: {fileID: 2100000, guid: c1b1be293fc980a4699f9a29a92822b2, type: 2}
   - first:
@@ -1037,6 +1022,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 7be642404873501449e44911c52b00b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: lenses_01k
     second: {fileID: 2100000, guid: aa905625172c0854da43db0f8fbf4167, type: 2}
   - first:
@@ -1044,6 +1034,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: mouth
     second: {fileID: 2100000, guid: 9e0eb635800e2b3489bb1d79be3c7890, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: roof
+    second: {fileID: 2100000, guid: 077582872eb23f24abf73eda68848aa8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -1087,6 +1082,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: surfaceShader1
+    second: {fileID: 2100000, guid: 1334533bfbf67d2479b246ec3c81cf17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: txblockbob_eater_bodyback_01k
     second: {fileID: 2100000, guid: 92e8be6abc2fdc947a94a78c399c1451, type: 2}
   - first:
@@ -1110,10 +1110,10 @@ ModelImporter:
       name: woman_head_1
     second: {fileID: 2100000, guid: ce44256d899cdd642a654d2466147fc9, type: 2}
   materials:
-    materialImportMode: 1
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -1143,12 +1143,10 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
-    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
@@ -1175,6 +1173,7 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
+  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -1192,10 +1191,8 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
-  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
