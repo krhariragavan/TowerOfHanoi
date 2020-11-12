@@ -33,9 +33,9 @@ GameManager.cs - Not used at the moment - Used for testing purpose only
 
 WebGl Build Folder Details
 ---------------
-Build 
-Template Data
-index.html
+- Build 
+- Template Data
+- index.html
 
 P.S.
 Lighting can be better. :)
