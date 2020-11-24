@@ -38,6 +38,17 @@ public class Game : MonoBehaviour
     // Has player made a first click
     public bool HasStarted; // becomes true on player clicks on tower
 
+    // Click and drag the peg
+    Tower FromTower, ToTower;
+    Vector3 DiskDefaultPos;
+    Disk MoveableDisk;
+    // Click and drag the peg
+
+    bool IsGameOver  // Check if player can make any more moves
+    {
+        get { return !UIManager.Instance.IsGameStarted; }
+    }
+
     [HideInInspector] public int CurrentMoveIndex;
 
     // Singleton Instance of the script
@@ -114,18 +125,22 @@ public class Game : MonoBehaviour
 
         //AllDisks.RemoveAll (delegate (GameObject o) { return o == null; });
 
-        for (int i = 0; i < AllDisks.Count; i++)
+        if (AllDisks.Count > 0)
         {
-            //Disk DiskInst = AllDisks [i];
-            //AllDisks.Remove (DiskInst);
+            for (int i = 0; i < AllDisks.Count; i++)
+            {
+                //Disk DiskInst = AllDisks [i];
+                //AllDisks.Remove (DiskInst);
 
-            GameObject obj = AllDisks [i];
-            Destroy (obj);
+                GameObject obj = AllDisks [i];
+                Destroy (obj);
+            }
+
+            AllDisks.RemoveAll (delegate (GameObject d) { return d == null; }); // Removing all values from list
+
+            AllDisks.Clear (); // Clearing again to make sure list is 100% clear
         }
 
-        AllDisks.RemoveAll (delegate (GameObject d) { return d == null; }); // Removing all values from list
-
-        AllDisks.Clear (); // Clearing again to make sure list is 100% clear
         AllDisks = new List<GameObject> (); // Creating a new instance of the list
 
         foreach (Tower tower in AllTowers)
@@ -195,9 +210,39 @@ public class Game : MonoBehaviour
 
     void Update ()
     {
+        // Click on two towers to make the move
+        //ClickOnTwoTowers (); // Commented to change its functionality/experience
+
+        if (!IsGameOver)
+        {
+            OnClickAndDrag (); // click and drag peg
+        }
+
+        // Key inputs for starting the game
+        if (Input.GetKeyDown (KeyCode.Return))
+        {
+            UIManager.Instance.PlayButton ();
+        }
+        // Key inputs for decreasing the disk/peg count
+        if (Input.GetKeyDown (KeyCode.Alpha0))
+        {
+            UIManager.Instance.SetDiskCount (false);
+        }
+        // Key inputs for increasing the disk/peg count
+        if (Input.GetKeyDown (KeyCode.Alpha1))
+        {
+            UIManager.Instance.SetDiskCount (true);
+        }
+    }
+
+    /// <summary>
+    /// Click on tower one and tower two to make a move
+    /// </summary>
+    void ClickOnTwoTowers ()
+    {
         if (Input.GetMouseButtonDown (0)) // On left click the tower
         {
-            if (HasStarted)
+            if (HasStarted) // 2nd tower
             {
                 Tower tower = OnClickSelect (false); // Getting which tower has been clicked
 
@@ -241,28 +286,111 @@ public class Game : MonoBehaviour
                     HasStarted = false;
                 }
             }
-            else
+            else // 1st tower
             {
                 //HasStarted = true;
                 SelectedTower = OnClickSelect (true);
                 HasStarted = SelectedTower != null; // Setting up if it has started if selectedtower not null game has started
             }
         }
+    }
 
-        // Key inputs for starting the game
-        if (Input.GetKeyDown (KeyCode.Return))
+    /// <summary>
+    /// Click and drag the peg to make a move
+    /// </summary>
+    void OnClickAndDrag ()
+    {
+        if (Input.GetMouseButtonDown (0))
         {
-            UIManager.Instance.PlayButton ();
+            FromTower = OnClickSelect (true);
+
+            if (FromTower != null)
+            {
+                MoveableDisk = FromTower.GetMoveableDiskBySize ();
+                if (MoveableDisk != null)
+                {
+                    Debug.Log ("Mouse Down, --> " + FromTower.gameObject.name);
+                    DiskDefaultPos = MoveableDisk.transform.position;
+                }
+            }
         }
-        // Key inputs for decreasing the disk/peg count
-        if (Input.GetKeyDown (KeyCode.Alpha0))
+        else if (Input.GetMouseButton (0))
         {
-            UIManager.Instance.SetDiskCount (false);
+            //float Zpos = FromTower.GetMoveableDiskBySize ().transform.position.z;
+
+            if (FromTower != null)
+            {
+                if (MoveableDisk != null)
+                {
+                    Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+                    RaycastHit hit;
+
+                    if (Physics.Raycast (ray, out hit, Mathf.Infinity))
+                    {
+                        Vector3 pos = hit.point; //ray.origin;
+                        MoveableDisk.transform.position = new Vector3 (pos.x, pos.y, 0);// + CurrPos;
+                    }
+                }
+                //Vector3 MovePos = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0));
+                //FromTower.GetMoveableDiskBySize ().transform.position = MovePos;
+                //Vector3 CurrPos = FromTower.GetMoveableDiskBySize ().transform.position;
+            }
         }
-        // Key inputs for increasing the disk/peg count
-        if (Input.GetKeyDown (KeyCode.Alpha1))
+        else if (Input.GetMouseButtonUp (0))
         {
-            UIManager.Instance.SetDiskCount (true);
+            ToTower = OnClickSelect (false);
+            if (ToTower != null)
+            {
+                Debug.Log ("Mouse Up, --> " + ToTower.gameObject.name);
+
+                if (MoveableDisk != null)
+                {
+                    if (ToTower.AllDisks.Count > 0)
+                    {
+                        if (MoveableDisk.Size < ToTower.GetMoveableDiskBySize ().Size)
+                        {
+                            MoveDiskWithUndo (FromTower, ToTower); // Moving the disk to next tower
+                            //return;
+                            //MoveDisk (MoveableDisk, tower);
+                            //SelectedTower.RemoveDisk (MoveableDisk); // Migrated to Move.cs
+                        }
+                        else // This block is for INVALID MOVE
+                        {
+                            UIManager.Instance.DisplayInvalidMove ();
+                            // Setting default color to towers
+                            FromTower.SetTowerColor (true);
+                            ToTower.SetTowerColor (true);
+                            // Debug msg
+                            MoveableDisk.transform.DOMove (DiskDefaultPos, 0.4f);
+                            Debug.Log ("Invalid MOVE");
+                            //return;
+                        }
+                    }
+                    else
+                    {
+                        MoveDiskWithUndo (FromTower, ToTower); // Moving the disk to next tower
+                        //MoveDisk (MoveableDisk, tower);
+                        //SelectedTower.RemoveDisk (MoveableDisk); // Migrated to Move.cs
+                    }
+                }
+
+                // Moving disk with undo
+                //MoveDiskWithUndo (FromTower, ToTower);
+            }
+            else
+            {
+                if (FromTower != null)
+                {
+                    if (MoveableDisk != null)
+                    {
+                        MoveableDisk.transform.DOMove (DiskDefaultPos, 0.4f);
+                        Debug.Log ("GO back to Previous Tower -->" + FromTower.gameObject.name);
+                    }
+                }
+            }
+            FromTower = null;
+            ToTower = null;
+            MoveableDisk = null;
         }
     }
 
@@ -282,9 +410,39 @@ public class Game : MonoBehaviour
         AllMoves.Add (move);
     }
 
+    // On drag move the peg from tower 1 to tower 2
+    //Tower OnDragMove ()
+    //{
+    //    Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+    //    RaycastHit hit;
 
+    //    if (Physics.Raycast (ray, out hit, 100f))
+    //    {
+    //        Tower tower = hit.collider.GetComponent<Tower> ();
+
+    //        if (tower != null)
+    //        {
+    //            tower.SetTowerColor (false);
+
+    //            return tower;
+    //            //if (WithDisk)
+    //            //{
+    //            //    if (tower.AllDisks.Count > 0)
+    //            //    {
+    //            //        return tower; // Returns clicked tower object
+    //            //    }
+    //            //}
+    //            //else
+    //            //{
+    //            //    return tower;
+    //            //}
+    //        }
+    //    }
+    //    return null;
+    //}
 
     // On click Select the Tower
+
     Tower OnClickSelect (bool WithDisk)
     {
         // Raycasting to find, click on the tower
@@ -313,7 +471,7 @@ public class Game : MonoBehaviour
             }
         }
         return null;
-    }    
+    }
 
     // Saving the best move locally
     public void SaveBestMove ()

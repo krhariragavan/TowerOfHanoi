@@ -126,16 +126,16 @@ public class Tower : MonoBehaviour
     // Set tower color for better identification of clicked tower
     public void SetTowerColor (bool IsDefault)
     {
-        if (IsDefault)
-        {
-            foreach (Material mat in mesh.materials)
-                mat.color = TowerDefaultMaterialColor;
-        }
-        else
-        {
-            foreach (Material mat in mesh.materials)
-                mat.color = new Color (0, 1, 0, 1);
-        }
+        //if (IsDefault)
+        //{
+        //    foreach (Material mat in mesh.materials)
+        //        mat.color = TowerDefaultMaterialColor;
+        //}
+        //else
+        //{
+        //    foreach (Material mat in mesh.materials)
+        //        mat.color = new Color (0, 1, 0, 1);
+        //}
     }
 
     //Disk GetMoveablePiece ()

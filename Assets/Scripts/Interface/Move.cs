@@ -43,11 +43,13 @@ public class Move : IMove
         //MoveableDisk.transform.DOMove (ToPos, 1);
         toTower.AddDisk (moveabledisk); // Play animation
 
+        Game.Instance.MoveCount++;
+
         // Changing move count in undo
-        if (IsUndo)
-            Game.Instance.MoveCount--;
-        else
-            Game.Instance.MoveCount++;
+        //if (IsUndo)
+        //    Game.Instance.MoveCount--;
+        //else
+        //    Game.Instance.MoveCount++;
 
     }
 

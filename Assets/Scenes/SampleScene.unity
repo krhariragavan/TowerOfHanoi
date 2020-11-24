@@ -994,7 +994,7 @@ MonoBehaviour:
   runSpeed: 8
   gravity: 20
   Speed: 5
-  lookSpeed: 3
+  lookSpeed: 1.5
   TowerOfHanoiGamePos: {x: -11.68, y: 4.491762, z: -4.66}
 --- !u!143 &963194231
 CharacterController:
@@ -1014,6 +1014,50 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &996585611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 996585613}
+  - component: {fileID: 996585612}
+  m_Layer: 0
+  m_Name: MoveCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &996585612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996585611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &996585613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996585611}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.06, y: 4.18, z: 0.95}
+  m_LocalScale: {x: 9.892704, y: 9.900778, z: 0.19561243}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1032082193
 GameObject:
   m_ObjectHideFlags: 0
@@ -12925,6 +12969,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 614896172786690988, guid: 2f62b4e7d965ae740a4053c4165af043,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.0668
+      objectReference: {fileID: 0}
     - target: {fileID: 2614988967844298709, guid: 2f62b4e7d965ae740a4053c4165af043,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -13044,6 +13093,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -119
+      objectReference: {fileID: 0}
+    - target: {fileID: 2614988968861568640, guid: 2f62b4e7d965ae740a4053c4165af043,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.0668
       objectReference: {fileID: 0}
     - target: {fileID: 2614988969275009210, guid: 2f62b4e7d965ae740a4053c4165af043,
         type: 3}

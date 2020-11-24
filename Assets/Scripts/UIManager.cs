@@ -115,6 +115,7 @@ public class UIManager : MonoBehaviour
 
     public void RestartGame ()
     {
+        IsGameStarted = true;
         Debug.Log ("Restarting Game");
         Game.Instance.StartGame ();
         StartTime = DateTime.Now;
