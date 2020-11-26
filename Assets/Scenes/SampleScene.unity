@@ -1195,7 +1195,7 @@ MonoBehaviour:
   gravity: 20
   Speed: 5
   lookSpeed: 1.5
-  TowerOfHanoiGamePos: {x: -11.68, y: 4.491762, z: -4.66}
+  TowerOfHanoiGamePos: {x: -11.68, y: 4.491762, z: -5.34}
 --- !u!143 &963194231
 CharacterController:
   m_ObjectHideFlags: 0
