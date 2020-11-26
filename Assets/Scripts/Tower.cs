@@ -26,11 +26,11 @@ public class Tower : MonoBehaviour
         {
             //if (!GameManager.Instance.IsWrongMove)
             //{
-            if (AllDisks.Count == Game.Instance.DiskCount)
+            if (AllDisks.Count == Game.Instance.DiskCount && UIManager.Instance.IsGameStarted)
             {
                 //GameManager.Instance.VictoryAchieved ();
-                Game.Instance.SaveBestMove ();
-                UIManager.Instance.DisplayWinText (); // Displaying win text
+                string WinMsg = Game.Instance.SaveBestMoveAndTimer ();
+                UIManager.Instance.DisplayWinText (WinMsg); // Displaying win text
                 UIManager.Instance.IsGameStarted = false;
                 //Debug.Log ("WONNNN");
             }

@@ -13,12 +13,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text MoveCountText; // Current move count text
     [SerializeField] Text BestMoveText; // Best move count text
     [SerializeField] Text TimerText; // Timer text
-    [SerializeField] Text InvalidMoveText; // Invalid move text
+    [SerializeField] Text BestTimerText; // Best Timer Text
+    [SerializeField] GameObject InvalidMoveBG; // Invalid move text
     [SerializeField] Text DiskCountDisplayText; // disk count display before the game starts
     [SerializeField] GameObject WonTheGame; // Won the game text
+    [SerializeField] GameObject UndoMsgObj;
 
-    DateTime StartTime;
-    TimeSpan TimeNow;
+    //DateTime StartTime;
+    //TimeSpan TimeNow;
 
     [HideInInspector]
     public bool IsGameStarted;
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
     void Start ()
     {
         InGameMenuObj.SetActive (false);
-        
+
         //DisplayInvalidMove ();
         SetDiskCountDisplayText ();
         //Invoke ("RestartGame", 2f);
@@ -53,8 +55,8 @@ public class UIManager : MonoBehaviour
     // Set timer text value
     void SetTimerText ()
     {
-        TimeNow = DateTime.Now - StartTime;
-        TimerText.text = TimeNow.ToString ();
+        //Game.Instance.TimeNow = DateTime.Now - Game.Instance.StartTime;
+        TimerText.text = Game.Instance.TimeNow.ToString ();
     }
 
     // Setting move count value in the UI Text
@@ -64,13 +66,21 @@ public class UIManager : MonoBehaviour
     }
 
     // Setting best move count value in the UI Text
-    public void SetBestMoveText ()
+    public void SetBestMoveOrTimerText ()
     {
-        int bestMove = Game.Instance.GetBestMove ();
+        int bestMove = Game.Instance.BestMove;
+        int BestTimer = Game.Instance.BestTimerInSeconds;
+
         if (bestMove > 0)
             BestMoveText.text = "Best Move - " + bestMove.ToString ();
         else
             BestMoveText.text = "Set your best move";
+
+        if (BestTimer > 0)
+            BestTimerText.text = "Record Time - " + BestTimer.ToString ();
+        else
+            BestTimerText.text = "Set your best time";
+
     }
 
     // Buttons
@@ -78,13 +88,15 @@ public class UIManager : MonoBehaviour
     public void PlayButton ()
     {
         IsGameStarted = true;
-        StartTime = DateTime.Now;
+        Game.Instance.StartTime = DateTime.Now;
         // Disable the player move
         PlayerMovement.Instance.DisablePlayerMove ();
         // Set Camera angle
         PlayerMovement.Instance.SetCameraAngle (true);
         // Setting invalid move text to false
-        InvalidMoveText.gameObject.SetActive (false);
+        InvalidMoveBG.gameObject.SetActive (false);
+        // Undo Msg UI
+        UndoMsgObj.SetActive (false);
         // Start game
         Game.Instance.StartGame ();
         // Hide play button
@@ -94,12 +106,14 @@ public class UIManager : MonoBehaviour
         // Setting display count text
         SetDiskCountDisplayText ();
 
-        SetBestMoveText (); // Setting best move text
+        SetBestMoveOrTimerText (); // Setting best move text
         WonTheGame.gameObject.SetActive (false); // Hiding the won the game text
     }
 
     public void ExitGameButton ()
     {
+        IsGameStarted = false;
+
         // Enabling back the player movement
         PlayerMovement.Instance.EnablePlayerMove ();
 
@@ -118,13 +132,24 @@ public class UIManager : MonoBehaviour
         IsGameStarted = true;
         Debug.Log ("Restarting Game");
         Game.Instance.StartGame ();
-        StartTime = DateTime.Now;
-        SetBestMoveText (); // Setting best move text
+        Game.Instance.StartTime = DateTime.Now;
+        SetBestMoveOrTimerText (); // Setting best move text
         WonTheGame.gameObject.SetActive (false); // Hiding the won the game text
     }
 
     public void Undo ()
     {
+        if (!IsGameStarted) return;
+
+        if (Game.Instance.MoveCount < 1)
+        {
+            // No Undo moves
+            //DisplayMsg (UndoMsgObj);
+            UndoMsgObj.SetActive (true);
+            StartCoroutine (HideInvalidMoveText (UndoMsgObj));
+            return;
+        }
+
         if (Game.Instance.CurrentMoveIndex >= 0)
         {
             Game.Instance.AllMoves [Game.Instance.CurrentMoveIndex].Undo ();
@@ -139,27 +164,41 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.Log ("NO undo MOVES");
-
             // No More Undo Moves
+            Debug.Log ("NO undo MOVES");
+            //DisplayMsg (UndoMsgObj);
+            UndoMsgObj.SetActive (true);
+            StartCoroutine (HideInvalidMoveText (UndoMsgObj));
+            return;
         }
     }
     #endregion
 
-    public void DisplayInvalidMove ()
+    void DisplayMsg (GameObject Obj)
     {
-        InvalidMoveText.gameObject.SetActive (true);
-        Vector3 CurrentPos = InvalidMoveText.transform.position;
-        InvalidMoveText.transform.position = new Vector3 (CurrentPos.x, CurrentPos.y, 10f);
-        InvalidMoveText.transform.DOMove (new Vector3 (CurrentPos.x, CurrentPos.y, 0), 1f);
-
-        StartCoroutine (HideInvalidMoveText ());
+        Obj.gameObject.SetActive (true);
+        Vector3 CurrentPos = Obj.transform.position;
+        Obj.transform.position = new Vector3 (CurrentPos.x, CurrentPos.y, 10f);
+        Obj.transform.DOMove (new Vector3 (CurrentPos.x, CurrentPos.y, 0), .4f);
+        StartCoroutine (HideInvalidMoveText (Obj));
     }
 
-    IEnumerator HideInvalidMoveText ()
+    public void DisplayInvalidMove ()
+    {
+        DisplayMsg (InvalidMoveBG);
+
+        //InvalidMoveBG.gameObject.SetActive (true);
+        //Vector3 CurrentPos = InvalidMoveBG.transform.position;
+        //InvalidMoveBG.transform.position = new Vector3 (CurrentPos.x, CurrentPos.y, 10f);
+        //InvalidMoveBG.transform.DOMove (new Vector3 (CurrentPos.x, CurrentPos.y, 0), 1f);
+
+        //StartCoroutine (HideInvalidMoveText (InvalidMoveBG.gameObject));
+    }
+
+    IEnumerator HideInvalidMoveText (GameObject Obj)
     {
         yield return new WaitForSeconds (2f);
-        InvalidMoveText.gameObject.SetActive (false);
+        Obj.SetActive (false);
     }
 
     void SetDiskCountDisplayText () // Used while starting of the game
@@ -187,9 +226,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void DisplayWinText ()
+    public void DisplayWinText (string winmsg)
     {
+        Text text = WonTheGame.GetComponentInChildren<Text> ();
+        text.text = "YOU WON THE GAME.\n\n" + winmsg;
+
         WonTheGame.gameObject.SetActive (true);
+        Vector3 CurrentPos = WonTheGame.transform.position;
+        WonTheGame.transform.position = new Vector3 (CurrentPos.x, CurrentPos.y, 10f);
+        WonTheGame.transform.DOMove (new Vector3 (CurrentPos.x, CurrentPos.y, -1), .4f);
     }
 
     // Future expansion if needed...

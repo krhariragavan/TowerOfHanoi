@@ -1,7 +1,9 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
@@ -27,13 +29,23 @@ public class Game : MonoBehaviour
     // Project Ref --> 
 
     // Key for saving playerprefs based on diskcount
-    string PlayerPrefsKey
+    string PlayerPrefsKey_BestMove
     {
         get
         {
-            return "Best" + DiskCount;
+            return "BestMove" + DiskCount;
         }
     }
+
+    string PlayerPrefsKey_BestTimer
+    {
+        get
+        {
+            return "BestTimer" + DiskCount;
+        }
+    }
+
+
 
     // Has player made a first click
     public bool HasStarted; // becomes true on player clicks on tower
@@ -49,6 +61,29 @@ public class Game : MonoBehaviour
         get { return !UIManager.Instance.IsGameStarted; }
     }
 
+    // Best Move and Timer -->
+    //[HideInInspector] public int CurrentTimerInSeconds; // TimeNow.Seconds returns the same value
+    [HideInInspector] public int BestMove;
+    [HideInInspector] public int BestTimerInSeconds;
+    [HideInInspector]
+    public int MinBestMoveCount
+    {
+        get
+        {
+            return (int) Mathf.Pow (2, DiskCount) - 1;
+        }
+    }
+    // Best Move and Timer -->
+
+    // Move timer enables click and drag function only when timer crosses 0.4 secs. 
+    // DOMove animation timing is 0.4f. This step is done only coz if user tries to move same peg twice within 0.4 sec
+    float MoveTimer;
+
+    // Timer
+    [HideInInspector] public DateTime StartTime;
+    [HideInInspector] public TimeSpan TimeNow;
+
+    // Saving move index for undo purpose
     [HideInInspector] public int CurrentMoveIndex;
 
     // Singleton Instance of the script
@@ -61,6 +96,7 @@ public class Game : MonoBehaviour
 
     void Start ()
     {
+        //PlayerPrefs.DeleteAll (); // USED FOR TESTING
         //StartGame (); // USED FOR TESTING
     }
 
@@ -76,11 +112,13 @@ public class Game : MonoBehaviour
         {
             AddDisks ();
         }
+
+        GetBestMoveAndTimer ();
     }
 
     void AddDisks ()// Add Disks
     {
-        UIManager.Instance.SetBestMoveText ();
+        UIManager.Instance.SetBestMoveOrTimerText ();
 
         MoveCount = 0; // Setting up move count to 0 - default start value
         Tower originTower = AllTowers [0];
@@ -208,6 +246,12 @@ public class Game : MonoBehaviour
     //    //originTower.AddDisk ()
     //}
 
+    void SetTimer ()
+    {
+        TimeNow = DateTime.Now - StartTime;
+        //TimerText.text = TimeNow.ToString ();
+    }
+
     void Update ()
     {
         // Click on two towers to make the move
@@ -215,7 +259,13 @@ public class Game : MonoBehaviour
 
         if (!IsGameOver)
         {
-            OnClickAndDrag (); // click and drag peg
+            SetTimer ();
+            MoveTimer += Time.deltaTime;
+
+            if (MoveTimer > 0.4f)
+            {
+                OnClickAndDrag (); // click and drag peg
+            }
         }
 
         // Key inputs for starting the game
@@ -361,6 +411,7 @@ public class Game : MonoBehaviour
                             FromTower.SetTowerColor (true);
                             ToTower.SetTowerColor (true);
                             // Debug msg
+                            MoveTimer = 0;
                             MoveableDisk.transform.DOMove (DiskDefaultPos, 0.4f);
                             Debug.Log ("Invalid MOVE");
                             //return;
@@ -383,6 +434,7 @@ public class Game : MonoBehaviour
                 {
                     if (MoveableDisk != null)
                     {
+                        MoveTimer = 0;
                         MoveableDisk.transform.DOMove (DiskDefaultPos, 0.4f);
                         Debug.Log ("GO back to Previous Tower -->" + FromTower.gameObject.name);
                     }
@@ -474,15 +526,117 @@ public class Game : MonoBehaviour
     }
 
     // Saving the best move locally
-    public void SaveBestMove ()
+    public string SaveBestMoveAndTimer ()
     {
-        PlayerPrefs.SetInt (PlayerPrefsKey, MoveCount);
+        string UIMsg = "";
+        // ------> Best Move
+        if (PlayerPrefs.HasKey (PlayerPrefsKey_BestMove))
+        {
+            //Debug.Log ("Min Count = " + MinBestMoveCount);
+            //Debug.Log ("Move Count = " + MoveCount);
+
+            if (MoveCount == MinBestMoveCount)
+            {
+                // Show UI
+                string Msg = "Congrats, You have completed the game in minimum possible moves";
+                UIMsg += Msg;
+
+                PlayerPrefs.SetInt (PlayerPrefsKey_BestMove, MoveCount);
+                Debug.Log (Msg);
+            }
+            else if (MoveCount < BestMove)
+            {
+                string Msg = "Congrats, This is your personal Best move, But you can complete the game in "
+                    + MinBestMoveCount + "moves!";
+                UIMsg += Msg;
+
+                PlayerPrefs.SetInt (PlayerPrefsKey_BestMove, MoveCount);
+                Debug.Log (Msg);
+                // Show UI
+            }
+            else
+            {
+                string Msg = "You can complete this in " + MinBestMoveCount + " moves";
+                UIMsg += Msg;
+
+                Debug.Log (Msg);
+                // Show UI
+            }
+        }
+        else
+        {
+            if (MoveCount == MinBestMoveCount)
+            {
+                // Show UI
+                string Msg = "Congrats, You have completed the game in minimum possible moves";
+                UIMsg += Msg;
+
+                PlayerPrefs.SetInt (PlayerPrefsKey_BestMove, MoveCount);
+                Debug.Log (Msg);
+            }
+            else
+            {
+                string Msg = "This is your Best Move " + MoveCount;
+                UIMsg += Msg;
+
+                PlayerPrefs.SetInt (PlayerPrefsKey_BestMove, MoveCount);
+                Debug.Log (Msg);
+            }
+
+        }
+        // --------->
+
+        // ---> Best Timer
+        if (PlayerPrefs.HasKey (PlayerPrefsKey_BestTimer))
+        {
+            if (BestTimerInSeconds > 0)
+            {
+                string Msg = "";
+                if (TimeNow.Seconds == BestTimerInSeconds)
+                {
+                    Msg = "You have completed in same time";
+                    Debug.Log (Msg);
+                }
+                else if (TimeNow.Seconds < BestTimerInSeconds)
+                {
+                    PlayerPrefs.SetInt (PlayerPrefsKey_BestTimer, TimeNow.Seconds);
+                    Msg = "Congrats, You have completed Quicker than the last time";
+                    Debug.Log (Msg);
+                }
+                else
+                {
+                    Msg = "Previously you had completed the same puzzle in " + BestTimerInSeconds + " seconds";
+                    Debug.Log (Msg);
+                }
+                UIMsg += "\n\n" + Msg;
+            }
+        }
+        else
+        {
+            string Msg = "Congrats, You have set the best time";
+            UIMsg += "\n\n" + Msg;
+            PlayerPrefs.SetInt (PlayerPrefsKey_BestTimer, TimeNow.Seconds);
+        }
+
+        PlayerPrefs.Save ();
+        return UIMsg;
+        // ---> Best Timer
     }
 
     // Getting exsisting best moves
-    public int GetBestMove ()
+    void GetBestMoveAndTimer ()
     {
-        return PlayerPrefs.GetInt (PlayerPrefsKey);
+        if (PlayerPrefs.HasKey (PlayerPrefsKey_BestMove))
+            BestMove = PlayerPrefs.GetInt (PlayerPrefsKey_BestMove);
+        else
+            BestMove = 0;
+
+        if (PlayerPrefs.HasKey (PlayerPrefsKey_BestTimer))
+            BestTimerInSeconds = PlayerPrefs.GetInt (PlayerPrefsKey_BestTimer);
+        else
+            BestTimerInSeconds = 0;
+
+        Debug.Log ("Best move = " + BestMove);
     }
 
     #region Temp
